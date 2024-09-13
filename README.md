@@ -1,6 +1,6 @@
 # Snake game with JavaScript
 
-A simple snake game using Canvas API.
+A simple snake game with AI using Canvas API.
 
 ## Purpose of this project:
 
