@@ -45,15 +45,14 @@ const drawFood = () => {
     context.fillRect(food.x, food.y, UNIT, UNIT);
 };
 
+// AI
 // Move snake
-const moveSnake = document.addEventListener("keydown", (event) => {
-    const key = event.key.toLowerCase();
-
-    if ((key === "arrowup" || key === "w") && direction.y === 0) direction = { x: 0, y: -1 };
-    if ((key === "arrowdown" || key === "s") && direction.y === 0) direction = { x: 0, y: 1 };
-    if ((key === "arrowleft" || key === "a") && direction.x === 0) direction = { x: -1, y: 0 };
-    if ((key === "arrowright" || key === "d") && direction.x === 0) direction = { x: 1, y: 0 };
-});
+const moveSnake = () => {
+    if ((snake[0].y > food.y) && direction.y === 0) direction = { x: 0, y: -1 };
+    if ((snake[0].y < food.y) && direction.y === 0) direction = { x: 0, y: 1 };
+    if ((snake[0].x > food.x) && direction.x === 0) direction = { x: -1, y: 0 };
+    if ((snake[0].x < food.x) && direction.x === 0) direction = { x: 1, y: 0 };
+};
 
 // New game button click
 newGameBtn.addEventListener("click", () => {
@@ -77,6 +76,10 @@ const gameLoop = () => {
     if (running) {
         // Clear canvas every loop for animation
         context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+        // AI move
+        moveSnake();
+
         let snakeHead = {x: snake[0].x + direction.x * UNIT, y: snake[0].y + direction.y * UNIT};
         snake.unshift(snakeHead);
 
@@ -101,7 +104,7 @@ const gameLoop = () => {
 
         // Loop
         clearTimeout(timeout);
-        timeout = setTimeout(gameLoop, 150);
+        timeout = setTimeout(gameLoop, 20);
     }
     else {
         context.clearRect(0, 0, canvasHeight, canvasWidth)
